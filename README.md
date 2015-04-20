@@ -18,20 +18,20 @@ With this library AccelStepper can be used to control steppers using a MCP23017 
 
     #define STEPPER_COUNT 4
 
-	Adafruit_MCP23017 mcp1;
+    Adafruit_MCP23017 mcp1;
 
 	MCP3017AccelStepper steppers[STEPPER_COUNT] = {
-	  // interface, step, dir, en
-  	  MCP3017AccelStepper(AccelStepper::DRIVER, 15, 14, 8),
-  	  MCP3017AccelStepper(AccelStepper::DRIVER, 4, 5, 6),
-  	  MCP3017AccelStepper(AccelStepper::DRIVER, 12, 11, 10),
-  	  MCP3017AccelStepper(AccelStepper::DRIVER, 3, 1, 2),
+	    // interface, step, dir, en
+  	    MCP3017AccelStepper(AccelStepper::DRIVER, 15, 14, 8),
+  	    MCP3017AccelStepper(AccelStepper::DRIVER, 4, 5, 6),
+  	    MCP3017AccelStepper(AccelStepper::DRIVER, 12, 11, 10),
+  	    MCP3017AccelStepper(AccelStepper::DRIVER, 3, 1, 2),
 	};
 
     void setup() {
       mcp1.begin();
   
-  	  for (int i = 0; i < STEPPER_COUNT; i++) {
+      for (int i = 0; i < STEPPER_COUNT; i++) {
         steppers[i].setMcp(mcp1);
         steppers[i].enableOutputs();
         steppers[i].setMaxSpeed(150.0);
@@ -49,6 +49,14 @@ With this library AccelStepper can be used to control steppers using a MCP23017 
         steppers[i].run();
       }
     }
+
+## Making things run smooth
+
+Ones you have a couple of steppers running you might notice that they're a bit slow. To make them run smooth you can change the clock frequency of the I2C bus. More on this here <http://playground.arduino.cc/Code/ATMELTWI#line7>
+
+    mcp1.begin();
+    TWBR = 12;  // 400 kHz 
+    // TWBR = 72;  // 100 kHz (default)
 
 ## Dependencies
 
